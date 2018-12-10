@@ -1,9 +1,11 @@
-www.facebook
+facebook
 twitter
-www.instagram
+instagram
 telegram
+whatsapp
 plus.google
 pinterest
 reddit
-en.wikipedia
-it.wikipedia
+wikipedia
+youtube
+google

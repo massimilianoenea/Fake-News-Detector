@@ -22,7 +22,7 @@ class Domain:
             parsed_uri = urlparse(url.lower())
             result = '{uri.netloc}'.format(uri=parsed_uri)
             for exclused in self.exlusedUrl:
-                if result.lower().startswith(exclused.lower()):
+                if exclused.lower() in result.lower():
                     exclude = True
                     break
             if exclude is False:
@@ -38,7 +38,11 @@ class Domain:
         return self.url
 
     def otherDomain(self):
+        self.clearOtherDomainArray()
         return self.otherUrl
+
+    def clearOtherDomainArray(self):
+        self.otherUrl = list(set(self.otherUrl))
 
     def clearDomainArray(self):
         self.url = list(set(self.url))

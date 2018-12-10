@@ -1,7 +1,7 @@
 import requests
 import Model.Domain as urlDomain
 import Model.UrlMatrix as urlMatrix
-from progress.bar import Bar
+from progressbar import bar
 from bs4 import BeautifulSoup
 
 """
@@ -37,7 +37,9 @@ for domain in domainList:
 
     print(len(domain.domain()), "own per il dominio ", domain.baseUrl)
 
-    bar = Bar('Processin:', max=len(domain.domain()))
+    #bar = bar('Processin:', max=len(domain.domain()))
+
+
 
     for url in domain.domain():
         r = requests.get(url)
@@ -46,11 +48,11 @@ for domain in domainList:
             href = a['href']
             if not href.startswith(domain.baseUrl):
                 domain.addOtherDomain(href)
-        bar.next()
-    bar.finish()
+        #bar.next()
+    #bar.finish()
 
     print(len(domain.otherDomain()), "other per il dominio ", domain.baseUrl)
-
+    print("Lista Altri Domini", domain.otherDomain())
 """
     for url in domain.getOccurrence():
         print(url, " -> ", domain.getOccurrence()[url])
