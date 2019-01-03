@@ -1,7 +1,6 @@
 import requests
 import Model.Domain as urlDomain
 import Model.UrlMatrix as urlMatrix
-from progressbar import bar
 from bs4 import BeautifulSoup
 
 """
