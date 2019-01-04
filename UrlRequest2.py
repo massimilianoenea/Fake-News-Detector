@@ -7,15 +7,17 @@ domain = urlDomain.Domain("http://aprilamente.info/non-si-puo-fermare-cio-che-st
 firstStep = step1.Step1()
 secondStep = step2.Step2()
 print("Avvio il Primo step")
-if(firstStep.getResponse(domain)):
+isInBlackList = firstStep.getResponse(domain)
+if(isInBlackList):
     print("Primo step ultimato")
 print("Avvio il Secondo step")
 variabile = secondStep.checkRefToOtherSite(domain)
 if(len(variabile) > 0):
-    print(variabile)
+    #qui devo aggiungere il codice per salvare i nuovi link nella blacklist
+    #print(variabile)
     print("Secondo step ultimato")
 print("Avvio il Terzo step")
-parsedArticle = article.ArticleParsed("http://aprilamente.info/non-si-puo-fermare-cio-che-sta-arrivando/")
+parsedArticle = article.ArticleParsed(domain)
 if(parsedArticle.isValidUrl):
     print(parsedArticle.title)
     #print(parsedArticle.summary)

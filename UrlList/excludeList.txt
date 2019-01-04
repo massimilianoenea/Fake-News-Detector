@@ -9,4 +9,5 @@ reddit
 wikipedia
 youtube
 google
+goo
 iubenda

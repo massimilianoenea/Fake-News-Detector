@@ -5,6 +5,7 @@ import Model.ExcludeList as Exclused
 class Domain:
 
     def __init__(self, url):
+        self.articleUrl = url
         parsed_uri = urlparse(url.lower())
         result = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
         self.baseUrl = result
@@ -29,6 +30,9 @@ class Domain:
 
     def setBrand (self, brand):
         self.brand = brand
+    
+    def getArticleUrl (self):
+        return self.articleUrl
 
     def addDomain(self, url):
         if url.startswith("http"):

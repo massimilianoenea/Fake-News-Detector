@@ -3,10 +3,12 @@ import Model.BlackList as BlackList
 class Step1:
     def __init__ (self):
         self.response = 'False'
-        self.blackList = BlackList.BlackList()
+        self.blackList = BlackList.BlackList().urlListModel.getUrlList()
     
     def getResponse (self, domain:Domain.Domain):
-        self.response = (domain.getDomainNameNetloc() in self.blackList.urlListModel.getUrlList())
-        if(self.response):
-            domain.setValutation(0,1)
-        return self.response
+        for url in self.blackList:
+            if url.lower() in domain.getDomainNameNetloc():
+                domain.setValutation(0,1)
+                return True
+        return False
+            

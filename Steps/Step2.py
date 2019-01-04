@@ -39,8 +39,6 @@ class Step2:
         counter = 0
 
         for url in domain.otherDomain():
-            parsed_uri = urlparse(url)
-            url = '{uri.netloc}'.format(uri=parsed_uri)
             for black in self.blackList:
                 if black.lower() in url.lower():
                     counter += 1
@@ -48,5 +46,4 @@ class Step2:
             #    counter += 1
 
         domain.setValutation(1,(counter/len(domain.otherDomain())))
-
         return domain.otherDomain()
