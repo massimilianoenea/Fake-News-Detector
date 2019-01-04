@@ -42,7 +42,7 @@ class Step2:
             parsed_uri = urlparse(url)
             url = '{uri.netloc}'.format(uri=parsed_uri)
             for black in self.blackList:
-                if black.lower().find(url.lower()):
+                if black.lower() in url.lower():
                     counter += 1
             #if url in self.blackList:
             #    counter += 1
