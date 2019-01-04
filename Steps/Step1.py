@@ -6,5 +6,7 @@ class Step1:
         self.blackList = BlackList.BlackList()
     
     def getResponse (self, domain:Domain.Domain):
-        self.response = (domain.getBaseUrl() in self.blackList.urlListModel.getUrlList())
+        self.response = (domain.getDomainNameNetloc() in self.blackList.urlListModel.getUrlList())
+        if(self.response):
+            domain.setValutation(0,1)
         return self.response

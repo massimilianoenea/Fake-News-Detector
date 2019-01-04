@@ -5,15 +5,47 @@ import Model.ExcludeList as Exclused
 class Domain:
 
     def __init__(self, url):
-        self.internalDomain = [url.lower()]
-        self.baseUrl = url.lower()
+        parsed_uri = urlparse(url.lower())
+        result = '{uri.scheme}://{uri.netloc}/'.format(uri=parsed_uri)
+        self.baseUrl = result
+        self.internalDomain = [self.baseUrl]
+        result = '{uri.netloc}'.format(uri=parsed_uri)
+        self.domainNameNetloc = result
         self.otherUrl = []
         self.exlusedUrl = Exclused.ExcludeList().urlListModel.getUrlList()
+        self.brand = ""
+        self.description = ""
+        self.categories = []
+        self.valutation = [0,0,0,0,0,0]    
+
+    def setDescription (self, description):
+        self.description = description
+
+    def setCategory (self, category):
+        self.categories.append(category)
+
+    def setCategoryArray (self, array):
+        self.categories = array  
+
+    def setBrand (self, brand):
+        self.brand = brand
 
     def addDomain(self, url):
         if url.startswith("http"):
             self.internalDomain.append(url.lower())
             self.clearDomainArray()
+
+    def setInternalDomainArray(self,array):
+        self.internalDomain = array
+    
+    def setInternalDomain(self,url):
+        self.internalDomain.append(url)
+    
+    def setOtherDomainArray(self,array):
+        self.otherUrl= []
+        for url in array:
+            if url not in self.exlusedUrl:
+                self.otherUrl.append(url)
 
     def addOtherDomain(self, url):
         exclude = False
@@ -53,3 +85,8 @@ class Domain:
     def getBaseUrl(self):
         return self.baseUrl
 
+    def getDomainNameNetloc(self):
+        return self.domainNameNetloc
+
+    def setValutation(self, position, value):
+        self.valutation[position] = value
