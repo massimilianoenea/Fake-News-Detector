@@ -1,23 +1,65 @@
 from textblob import TextBlob
+import re
 from nltk.corpus import wordnet as wn
 from nltk.corpus import stopwords
+import treetaggerwrapper
 import nltk
 from nltk.tokenize import word_tokenize, RegexpTokenizer
 import string
 import gensim
 
+########## FUNZIONI PER LA DETERMINAZIONE DEL POS ###################
+
+def is_noun(tag):
+    return tag in ['NN', 'NNS', 'NNP', 'NNPS']
+
+
+def is_verb(tag):
+    return tag in ['VB', 'VBD', 'VBG', 'VBN', 'VBP', 'VBZ']
+
+
+def is_adverb(tag):
+    return tag in ['RB', 'RBR', 'RBS']
+
+
+def is_adjective(tag):
+    return tag in ['JJ', 'JJR', 'JJS']
+
+
+def penn_to_wn(tag):
+    if is_adjective(tag):
+        return wn.ADJ
+    elif is_noun(tag):
+        return wn.NOUN
+    elif is_adverb(tag):
+        return wn.ADV
+    elif is_verb(tag):
+        return wn.VERB
+    return None
+
+
+#################### FINE FUNZIONI #########################
+
 file = open('./textTest/articleTest.txt', 'r')
-file2 = open('./textTest/articleTestv2.txt', 'r')
+file2 = open('./textTest/articleTest2.txt', 'r')
 file3 = open('./textTest/toCompareTest.txt','r')
-testi = [file.read(),file2.read()]
+
+testo1 = file.read()
+testo2 = file2.read()
 textToComp = file3.read()
-# wiki = TextBlob(file.read())
+testi = [testo1,testo2]
+
 tokenizer = RegexpTokenizer(r'\w+')
 stop_words = stopwords.words('italian')
+tagger = treetaggerwrapper.TreeTagger(TAGLANG='it', TAGPARFILE='italian.par')
+
+print(stop_words)
+exit()
 gen_docs = [[w.lower() for w in tokenizer.tokenize(text) if not w.lower() in stop_words] 
             for text in testi]
 
-# cane_lemmas = wn.lemmas("chiuso", lang="ita")
+lemGen_docs = [[re.sub('[^A-Z]', '', t) for t in tagger.tag_text(docs)] for docs in gen_docs]
+
 # print(gen_docs)
 
 dictionary = gensim.corpora.Dictionary(gen_docs)
@@ -42,7 +84,7 @@ sims = gensim.similarities.Similarity('/Users/massimilianoenea/similarity',tf_id
 # print(type(sims))
 
 query_doc = [w.lower() for w in tokenizer.tokenize(textToComp) if not w.lower() in stop_words]
-#print(query_doc)
+print(query_doc)
 query_doc_bow = dictionary.doc2bow(query_doc)
 #print(query_doc_bow)
 query_doc_tf_idf = tf_idf[query_doc_bow]
